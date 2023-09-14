@@ -1,0 +1,8 @@
+[Unit]
+Description=Voyager data startup script
+
+[Service]
+ExecStart=/usr/bin/voyager-data.sh
+
+[Install]
+WantedBy=default.target
