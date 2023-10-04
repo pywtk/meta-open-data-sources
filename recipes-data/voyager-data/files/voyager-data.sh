@@ -24,7 +24,7 @@ do
 	    --dump-dom \
 	    'https://voyager.jpl.nasa.gov/mission/status/' > /tmp/voydata
     if [ -e /tmp/voydata ]; then
-	    grep voy2_kms /tmp/voydata | awk -F'[> ]' '{print $4}' > /tmp/voy2_kms
+	    grep voy2_kms /tmp/voydata | awk -F'[>, ]' '{print $4$5$6$7}' > /tmp/voy2_kms
 	    cat /tmp/voy2_kms >> /tmp/debug
 	    rm /tmp/voydata
     else
