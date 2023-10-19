@@ -1,4 +1,20 @@
 #!/bin/bash
+
+#valid ids
+IDS=("_km"
+"_kms"
+"_au"
+"_aus"
+"_speed"
+"_lt")
+
+KEYS=('$5$6$7$8'
+'$5$6$7$8'
+'$5'
+'$5'
+'$4$5'
+'$6')
+
 while :
 do
     echo -n "$(date +%T) " >> /tmp/debug
@@ -24,7 +40,14 @@ do
 	    --dump-dom \
 	    'https://voyager.jpl.nasa.gov/mission/status/' > /tmp/voydata
     if [ -e /tmp/voydata ]; then
-	    grep voy2_kms /tmp/voydata | awk -F'[>, ]' '{print $4$5$6$7}' > /tmp/voy2_kms
+        for n in 1 2
+        do
+            for i in ${!IDS[@]}
+            do
+                var=voy$n${IDS[i]}
+                grep $var /tmp/voydata | awk -F'[>, <]' '{print '${KEYS[i]}'; exit}' > /tmp/$var
+            done
+        done
 	    cat /tmp/voy2_kms >> /tmp/debug
 	    rm /tmp/voydata
     else
