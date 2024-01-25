@@ -4,7 +4,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
 inherit systemd
-RDEPENDS:${PN} = "bash"
+RDEPENDS_${PN} = "bash"
 
 python do_display_banner() {
     bb.plain("***********************************************");
@@ -17,20 +17,20 @@ python do_display_banner() {
 addtask display_banner before do_build
 
 SYSTEMD_AUTO_ENABLE = "enable"
-SYSTEMD_SERVICE:${PN} = "voyager.service \
+SYSTEMD_SERVICE_${PN} = "voyager.service \
 "
 
-SRC_URI:append = " file://voyager.service \
+SRC_URI_append = " file://voyager.service \
 	file://voyager-data.sh \
 	file://test.dat \
 	"
 
-FILES:${PN} += "${systemd_unitdir}/system/voyager.service \
+FILES_${PN} += "${systemd_unitdir}/system/voyager.service \
 	${bindir}/voyager-data.sh \
 	home/test.dat \
 	"
 
-do_install:append() {
+do_install_append() {
   install -d ${D}/${systemd_unitdir}/system
   install -m 0644 ${WORKDIR}/voyager.service ${D}/${systemd_unitdir}/system
   
